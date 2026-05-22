@@ -1,0 +1,20 @@
+apiVersion: failover.scheduler.dev/v1alpha1
+kind: EventBusObservation
+metadata:
+  name: eventbus-observation-sample
+  namespace: default
+spec:
+  eventBusRef:
+    name: default
+    namespace: eventbus-ha
+  prometheusURL: http://localhost:30090
+  streamName: test-stream
+  primary:
+    cluster: mem2
+    endpoint: nats://192.168.112.124:32132
+  candidates:
+    - cluster: mem1
+      endpoint: nats://192.168.112.123:32131
+    - cluster: mem3
+      endpoint: nats://192.168.112.125:32133
+  failoverRequired: true

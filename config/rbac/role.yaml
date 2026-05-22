@@ -1,0 +1,32 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: manager-role
+rules:
+- apiGroups:
+  - failover.scheduler.dev
+  resources:
+  - eventbusobservations
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - failover.scheduler.dev
+  resources:
+  - eventbusobservations/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - failover.scheduler.dev
+  resources:
+  - eventbusobservations/status
+  verbs:
+  - get
+  - patch
+  - update

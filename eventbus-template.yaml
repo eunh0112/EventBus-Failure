@@ -1,0 +1,12 @@
+apiVersion: argoproj.io/v1alpha1
+kind: EventBus
+metadata:
+  name: default
+  namespace: eventbus-ha
+spec:
+  jetstreamExotic:
+    url: nats://192.168.112.124:32132
+    version: latest
+    accessSecret:
+      name: nats-exotic-auth
+      key: client-auth
