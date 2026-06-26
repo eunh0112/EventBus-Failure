@@ -1,0 +1,9 @@
+apiVersion: nats.failover.io/v1alpha1
+kind: NatsProfile
+metadata:
+  labels:
+    app.kubernetes.io/name: nats-failover-controller
+    app.kubernetes.io/managed-by: kustomize
+  name: natsprofile-sample
+spec:
+  # TODO(user): Add fields here

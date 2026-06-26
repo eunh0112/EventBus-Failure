@@ -5,9 +5,29 @@ metadata:
   name: manager-role
 rules:
 - apiGroups:
-  - failover.scheduler.dev
+  - ""
   resources:
-  - eventbusobservations
+  - configmaps
+  verbs:
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - batch
+  resources:
+  - jobs
   verbs:
   - create
   - delete
@@ -17,16 +37,43 @@ rules:
   - update
   - watch
 - apiGroups:
-  - failover.scheduler.dev
+  - nats.failover.io
   resources:
-  - eventbusobservations/finalizers
+  - natsprofiles
+  - observations
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - nats.failover.io
+  resources:
+  - natsprofiles/finalizers
+  - observations/finalizers
   verbs:
   - update
 - apiGroups:
-  - failover.scheduler.dev
+  - nats.failover.io
   resources:
-  - eventbusobservations/status
+  - natsprofiles/status
+  - observations/status
   verbs:
   - get
   - patch
   - update
+- apiGroups:
+  - policy.karmada.io
+  resources:
+  - propagationpolicies
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch

@@ -1,0 +1,27 @@
+# This rule is not used by the project nats-failover-controller itself.
+# It is provided to allow the cluster admin to help manage permissions for users.
+#
+# Grants full permissions ('*') over nats.failover.io.
+# This role is intended for users authorized to modify roles and bindings within the cluster,
+# enabling them to delegate specific permissions to other users or groups as needed.
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: nats-failover-controller
+    app.kubernetes.io/managed-by: kustomize
+  name: observation-admin-role
+rules:
+- apiGroups:
+  - nats.failover.io
+  resources:
+  - observations
+  verbs:
+  - '*'
+- apiGroups:
+  - nats.failover.io
+  resources:
+  - observations/status
+  verbs:
+  - get

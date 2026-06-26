@@ -35,8 +35,8 @@ import (
 	metricsserver "sigs.k8s.io/controller-runtime/pkg/metrics/server"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
-	failoverv1alpha1 "github.com/eunho/eventbus-failover-controller/api/v1alpha1"
-	"github.com/eunho/eventbus-failover-controller/internal/controller"
+	natsv1alpha1 "github.com/eunh0112/EventBus-Failure/api/v1alpha1"
+	"github.com/eunh0112/EventBus-Failure/internal/controller"
 	// +kubebuilder:scaffold:imports
 )
 
@@ -48,7 +48,7 @@ var (
 func init() {
 	utilruntime.Must(clientgoscheme.AddToScheme(scheme))
 
-	utilruntime.Must(failoverv1alpha1.AddToScheme(scheme))
+	utilruntime.Must(natsv1alpha1.AddToScheme(scheme))
 	// +kubebuilder:scaffold:scheme
 }
 
@@ -160,7 +160,7 @@ func main() {
 		WebhookServer:          webhookServer,
 		HealthProbeBindAddress: probeAddr,
 		LeaderElection:         enableLeaderElection,
-		LeaderElectionID:       "2065cbc6.scheduler.dev",
+		LeaderElectionID:       "8505f2a3.failover.io",
 		// LeaderElectionReleaseOnCancel defines if the leader should step down voluntarily
 		// when the Manager ends. This requires the binary to immediately end when the
 		// Manager is stopped, otherwise, this setting is unsafe. Setting this significantly
@@ -178,13 +178,28 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err := (&controller.EventBusObservationReconciler{
+	if err := (&controller.NatsProfileReconciler{
 		Client: mgr.GetClient(),
 		Scheme: mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "Failed to create controller", "controller", "EventBusObservation")
+		setupLog.Error(err, "Failed to create controller", "controller", "NatsProfile")
 		os.Exit(1)
 	}
+	if err := (&controller.ObservationReconciler{
+		Client: mgr.GetClient(),
+		Scheme: mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "Failed to create controller", "controller", "Observation")
+		os.Exit(1)
+	}
+	if err := (&controller.DesignationReconciler{
+		Client: mgr.GetClient(),
+		Scheme: mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "Failed to create controller", "controller", "Designation")
+		os.Exit(1)
+	}
+
 	// +kubebuilder:scaffold:builder
 
 	if err := mgr.AddHealthzCheck("healthz", healthz.Ping); err != nil {

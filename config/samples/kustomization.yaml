@@ -1,4 +1,5 @@
 ## Append samples of your project ##
 resources:
-- failover_v1alpha1_eventbusobservation.yaml
+- nats_v1alpha1_natsprofile.yaml
+- nats_v1alpha1_observation.yaml
 # +kubebuilder:scaffold:manifestskustomizesamples

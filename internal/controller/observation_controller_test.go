@@ -27,10 +27,10 @@ import (
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	failoverv1alpha1 "github.com/eunho/eventbus-failover-controller/api/v1alpha1"
+	natsv1alpha1 "github.com/eunh0112/EventBus-Failure/api/v1alpha1"
 )
 
-var _ = Describe("EventBusObservation Controller", func() {
+var _ = Describe("Observation Controller", func() {
 	Context("When reconciling a resource", func() {
 		const resourceName = "test-resource"
 
@@ -40,13 +40,13 @@ var _ = Describe("EventBusObservation Controller", func() {
 			Name:      resourceName,
 			Namespace: "default", // TODO(user):Modify as needed
 		}
-		eventbusobservation := &failoverv1alpha1.EventBusObservation{}
+		observation := &natsv1alpha1.Observation{}
 
 		BeforeEach(func() {
-			By("creating the custom resource for the Kind EventBusObservation")
-			err := k8sClient.Get(ctx, typeNamespacedName, eventbusobservation)
+			By("creating the custom resource for the Kind Observation")
+			err := k8sClient.Get(ctx, typeNamespacedName, observation)
 			if err != nil && errors.IsNotFound(err) {
-				resource := &failoverv1alpha1.EventBusObservation{
+				resource := &natsv1alpha1.Observation{
 					ObjectMeta: metav1.ObjectMeta{
 						Name:      resourceName,
 						Namespace: "default",
@@ -59,16 +59,16 @@ var _ = Describe("EventBusObservation Controller", func() {
 
 		AfterEach(func() {
 			// TODO(user): Cleanup logic after each test, like removing the resource instance.
-			resource := &failoverv1alpha1.EventBusObservation{}
+			resource := &natsv1alpha1.Observation{}
 			err := k8sClient.Get(ctx, typeNamespacedName, resource)
 			Expect(err).NotTo(HaveOccurred())
 
-			By("Cleanup the specific resource instance EventBusObservation")
+			By("Cleanup the specific resource instance Observation")
 			Expect(k8sClient.Delete(ctx, resource)).To(Succeed())
 		})
 		It("should successfully reconcile the resource", func() {
 			By("Reconciling the created resource")
-			controllerReconciler := &EventBusObservationReconciler{
+			controllerReconciler := &ObservationReconciler{
 				Client: k8sClient,
 				Scheme: k8sClient.Scheme(),
 			}

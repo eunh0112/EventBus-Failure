@@ -1,7 +1,7 @@
-# This rule is not used by the project eventbus-failover-controller itself.
+# This rule is not used by the project nats-failover-controller itself.
 # It is provided to allow the cluster admin to help manage permissions for users.
 #
-# Grants read-only access to failover.scheduler.dev resources.
+# Grants read-only access to nats.failover.io resources.
 # This role is intended for users who need visibility into these resources
 # without permissions to modify them. It is ideal for monitoring purposes and limited-access viewing.
 
@@ -9,21 +9,21 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   labels:
-    app.kubernetes.io/name: eventbus-failover-controller
+    app.kubernetes.io/name: nats-failover-controller
     app.kubernetes.io/managed-by: kustomize
-  name: eventbusobservation-viewer-role
+  name: observation-viewer-role
 rules:
 - apiGroups:
-  - failover.scheduler.dev
+  - nats.failover.io
   resources:
-  - eventbusobservations
+  - observations
   verbs:
   - get
   - list
   - watch
 - apiGroups:
-  - failover.scheduler.dev
+  - nats.failover.io
   resources:
-  - eventbusobservations/status
+  - observations/status
   verbs:
   - get

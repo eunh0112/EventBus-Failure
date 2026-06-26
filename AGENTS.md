@@ -1,4 +1,4 @@
-# eventbus-failover-controller - AI Agent Guide
+# nats-failover-controller - AI Agent Guide
 
 ## Project Structure
 

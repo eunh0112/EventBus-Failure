@@ -1,0 +1,33 @@
+# This rule is not used by the project nats-failover-controller itself.
+# It is provided to allow the cluster admin to help manage permissions for users.
+#
+# Grants permissions to create, update, and delete resources within the nats.failover.io.
+# This role is intended for users who need to manage these resources
+# but should not control RBAC or manage permissions for others.
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: nats-failover-controller
+    app.kubernetes.io/managed-by: kustomize
+  name: natsprofile-editor-role
+rules:
+- apiGroups:
+  - nats.failover.io
+  resources:
+  - natsprofiles
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - nats.failover.io
+  resources:
+  - natsprofiles/status
+  verbs:
+  - get

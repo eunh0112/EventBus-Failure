@@ -1,0 +1,90 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.20.1
+  name: observations.nats.failover.io
+spec:
+  group: nats.failover.io
+  names:
+    kind: Observation
+    listKind: ObservationList
+    plural: observations
+    singular: observation
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Observation is the Schema for the observations API
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              profileName:
+                type: string
+            required:
+            - profileName
+            type: object
+          status:
+            description: ObservationStatus defines the observed state of Observation.
+            properties:
+              activeBroker:
+                type: string
+              brokers:
+                items:
+                  description: ObservationSpec defines the desired state of Observation
+                  properties:
+                    healthy:
+                      type: boolean
+                    lag:
+                      format: int64
+                      type: integer
+                    lastSequence:
+                      format: int64
+                      type: integer
+                    name:
+                      type: string
+                    reason:
+                      type: string
+                    role:
+                      type: string
+                    source:
+                      type: string
+                  required:
+                  - healthy
+                  - name
+                  type: object
+                type: array
+              lastUpdated:
+                format: date-time
+                type: string
+              phase:
+                type: string
+              reason:
+                type: string
+              selectedBroker:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

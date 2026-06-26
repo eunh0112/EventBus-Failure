@@ -30,20 +30,20 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	"github.com/eunho/eventbus-failover-controller/test/utils"
+	"github.com/eunh0112/EventBus-Failure/test/utils"
 )
 
 // namespace where the project is deployed in
-const namespace = "eventbus-failover-controller-system"
+const namespace = "nats-failover-controller-system"
 
 // serviceAccountName created for the project
-const serviceAccountName = "eventbus-failover-controller-controller-manager"
+const serviceAccountName = "nats-failover-controller-controller-manager"
 
 // metricsServiceName is the name of the metrics service of the project
-const metricsServiceName = "eventbus-failover-controller-controller-manager-metrics-service"
+const metricsServiceName = "nats-failover-controller-controller-manager-metrics-service"
 
 // metricsRoleBindingName is the name of the RBAC that will be created to allow get the metrics data
-const metricsRoleBindingName = "eventbus-failover-controller-metrics-binding"
+const metricsRoleBindingName = "nats-failover-controller-metrics-binding"
 
 var _ = Describe("Manager", Ordered, func() {
 	var controllerPodName string
@@ -176,7 +176,7 @@ var _ = Describe("Manager", Ordered, func() {
 		It("should ensure the metrics endpoint is serving metrics", func() {
 			By("creating a ClusterRoleBinding for the service account to allow access to metrics")
 			cmd := exec.Command("kubectl", "create", "clusterrolebinding", metricsRoleBindingName,
-				"--clusterrole=eventbus-failover-controller-metrics-reader",
+				"--clusterrole=nats-failover-controller-metrics-reader",
 				fmt.Sprintf("--serviceaccount=%s:%s", namespace, serviceAccountName),
 			)
 			_, err := utils.Run(cmd)
